@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 import scrapy
+import re
 
 
 class CifrasClubSpider(scrapy.Spider):
@@ -17,5 +18,11 @@ class CifrasClubSpider(scrapy.Spider):
             yield response.follow(music_link, self.parse_lyrics)
 
     def parse_lyrics(self, response):
+        titulo = response.css('h1.t1::text').get()
+        compositor = response.css('div.cifra-footer a::text').get().replace('Composição de ', '') 
         link = response.url
+
+    def removeTag(rawHtml):
+        regex = re.compile('<.*?>')
+        return re.sub(regex, '', rawHtml)
         
