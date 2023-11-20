@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  postgres:
+    image: postgres:latest
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  web:
+    image: python:3.11.6
+    command: bash -c "pip install -r crawler_lyrics/requirements.txt && cd crawler_lyrics/crawler_lyrics && scrapy crawl cifras_club"
+    depends_on:
+      - postgres
+    volumes:
+      - ./:/crawler_lyrics
+    ports:
+      - "5000:5000"
+
+volumes:
+  postgres_data:
