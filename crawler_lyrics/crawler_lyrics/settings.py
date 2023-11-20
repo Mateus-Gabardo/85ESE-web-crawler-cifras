@@ -26,9 +26,9 @@ FEED_EXPORT_ENCODING = "utf-8"
 # settings.py
 
 DATABASE = {
-    'host': 'localhost',
-    'user': 'admin',
-    'password': '1234',
+    'host': 'postgres',
+    'user': 'postgres',
+    'password': 'admin',
     'database': 'postgres',
     'port': '5432',
 }

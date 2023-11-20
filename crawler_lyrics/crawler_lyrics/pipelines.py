@@ -14,7 +14,7 @@ class CrawlerLyricsPipeline:
         database = {
             'host': settings.get('DATABASE')['host'],
             'user': settings.get('DATABASE')['user'],
-            #'password': settings.get('DATABASE')['password'],
+            'password': settings.get('DATABASE')['password'],
             'database': settings.get('DATABASE')['database'],
             'port': settings.get('DATABASE')['port'],
         }
