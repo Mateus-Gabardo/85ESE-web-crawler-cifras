@@ -14,7 +14,7 @@ services:
 
   web:
     image: python:3.11.6
-    command: bash -c "pip install -r crawler_lyrics/requirements.txt && cd crawler_lyrics/crawler_lyrics && scrapy crawl cifras_club"
+    command: bash -c "pip install -r crawler_lyrics/requirements.txt && cd crawler_lyrics/crawler_lyrics && scrapyrt"
     depends_on:
       - postgres
     volumes:
