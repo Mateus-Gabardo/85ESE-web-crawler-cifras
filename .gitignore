@@ -2,7 +2,7 @@
 .venv*
 .idea*
 ./**/**/**/__pycache__*
-./crawler_lyrics/logs*
+crawler_lyrics/logs*
 
 *.pyc
 __pycache__/
