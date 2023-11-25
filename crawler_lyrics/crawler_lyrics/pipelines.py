@@ -1,5 +1,3 @@
-import datetime
-from itemadapter import ItemAdapter
 import psycopg2
 
 
@@ -21,7 +19,9 @@ class CrawlerLyricsPipeline:
         return cls(database)
     
     def open_spider(self, spider):
+        print('passou aqui')
         self.connection = psycopg2.connect(**self.database)
+        self.connection.set_client_encoding('utf-8')
         self.cur = self.connection.cursor()
         self.cur.execute("""
             CREATE TABLE IF NOT EXISTS catholic_lyrics(
@@ -34,9 +34,6 @@ class CrawlerLyricsPipeline:
             );
             """)
     def close_spider(self, spider):
-        finish_time = datetime.now()
-        elapsed_time = finish_time - self.start_time
-        spider.log(f"Spider ran for: {elapsed_time}")
         self.cur.close()
         self.connection.close()
     

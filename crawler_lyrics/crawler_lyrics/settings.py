@@ -14,9 +14,10 @@ NEWSPIDER_MODULE = "crawler_lyrics.spiders"
 
 ROBOTSTXT_OBEY = True
 
-ITEM_PIPELINES = {
-   "crawler_lyrics.pipelines.CrawlerLyricsPipeline": 300,
-}
+# ITEM_PIPELINES = {
+#    #"crawler_lyrics.pipelines.CrawlerLyricsPipeline": 300,
+#    "crawler_lyrics.pipeline_salvar_arquivo.SalvarArquivoPipeline" : 300
+# }
 
 # Set settings whose default value is deprecated to a future-proof value
 REQUEST_FINGERPRINTER_IMPLEMENTATION = "2.7"
