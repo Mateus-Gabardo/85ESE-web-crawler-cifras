@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build -t web-crawler-cifras .
+      run: docker build -t web-crawler-cifras:develop-SNAPSHOT .
       
   deploy:
   
