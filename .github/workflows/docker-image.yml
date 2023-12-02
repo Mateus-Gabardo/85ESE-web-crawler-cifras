@@ -18,7 +18,7 @@ jobs:
     steps:
     - uses: actions/checkout@v3
     - name: Build the Docker image
-      run: docker build -t web-crawler-cifras:develop-SNAPSHOT .
+      run: docker build -t web-crawler-cifras .
       
   deploy:
   
@@ -30,4 +30,4 @@ jobs:
     - name: Docker login
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Push docker image
-      run:  docker push gabardomateus/web-crawler-cifras:develop-SNAPSHOT
+      run:  docker push gabardomateus/web-crawler-cifras
