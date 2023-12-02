@@ -1,23 +1,14 @@
-
 import scrapy
 import re
 
 from crawler_lyrics.items import CrawlerLyricsItem
 
-
-class CifrasClubSpider(scrapy.Spider):
-    name = 'cifras_club'
+class CifrasClubItemSpider(scrapy.Spider):
+    name = 'cifras_club_item'
     allowed_domains = ['cifraclub.com.br']
-    start_urls = ['https://www.cifraclub.com.br/catolicas/']
+    start_urls = ['https://www.cifraclub.com.br/catolicas/sacramento-da-comunhao/']
 
     def parse(self, response):
-        song_list  = response.css('ul#js-a-songs li')
-
-        for song in song_list :
-            song_link = song.css('a.art_music-link::attr(href)').get()
-            yield response.follow(song_link, self.parse_lyrics)
-
-    def parse_lyrics(self, response):
         titulo = response.css('h1.t1::text').get()
         compositor = response.css('div.cifra-footer a::text').get().replace('Composição de ', '')
         link = response.url
@@ -48,7 +39,6 @@ class CifrasClubSpider(scrapy.Spider):
             rawHtml = re.sub(regex, '', rawHtml)
         return rawHtml
 
-    
     def remove_all_tags(self, raw_html):
         if raw_html is not None:
             without_tags = re.sub(r'<.*?>', '', raw_html)
@@ -62,6 +52,3 @@ class CifrasClubSpider(scrapy.Spider):
         non_empty_lines = [line for line in lines if line.strip() != '']
         result = '\n'.join(non_empty_lines)
         return result
-
-        
-        
