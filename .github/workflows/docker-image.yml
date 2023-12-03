@@ -1,35 +1,55 @@
-name: Docker Image CI
+# This workflow will build a Java project with Maven, and cache/restore any dependencies to improve the workflow execution time
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-java-with-maven
+
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+name: Python CI
 
 on:
   push:
-    branches: 
-      - develop
-      - master
+    branches: [ "main" ]
   pull_request:
-    branches: 
-      - develop
-      - master
+    branches: [ "main" ]
 
 jobs:
-
   build:
-
     runs-on: ubuntu-latest
-
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build -t gabardomateus/web-crawler-cifras .
-      
+    - name: Checkout
+      uses: actions/checkout@v3
+    - name: Set up Docker Buildx
+      uses: docker/setup-buildx-action@v3
+    - name: Run postgres
+      run: docker run --name postgres -e POSTGRES_PASSWORD=1234 -p 5432:5432 -d postgres
+    - name: Build and export
+      uses: docker/build-push-action@v5
+      with:
+        context: .
+        tags: web-crawler-cifras:latest
+        outputs: type=docker,dest=/tmp/web-crawler-cifras.tar
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: web-crawler-cifras
+        path: /tmp/web-crawler-cifras.tar
   deploy:
     needs: build
     runs-on: ubuntu-latest
-    
     steps:
-    - uses: actions/checkout@v3
-    - name: Build the Docker image
-      run: docker build -t gabardomateus/web-crawler-cifras .
+    - name: Download artifact
+      uses: actions/download-artifact@v3
+      with:
+        name: web-crawler-cifras
+        path: /tmp
+    - name: Load image
+      run: |
+        docker load --input /tmp/web-crawler-cifras.tar
+        docker image ls -a
+        docker tag web-crawler-cifras gabardomateus/web-crawler-cifras
     - name: Docker login
       run: docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
     - name: Push docker image
-      run:  docker push gabardomateus/web-crawler-cifras:latest
+      run:  docker push gabardomateus/web-crawler-cifras
