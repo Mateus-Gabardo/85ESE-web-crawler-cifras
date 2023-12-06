@@ -3,4 +3,4 @@ WORKDIR /app
 COPY crawler_lyrics . 
 RUN pip install -r requirements.txt
 RUN cd crawler_lyrics
-CMD ["scrapyrt"]
+ENTRYPOINT ["scrapyrt", "-i", "0.0.0.0"]
